@@ -35,6 +35,34 @@
 <div class="field" style="margin-top:14px"><label for="handoff">Suggested next investigation</label><textarea id="handoff" placeholder="A question or investigation grounded in evidence; do not state an unverified root cause."></textarea></div></section>
 <div class="actions"><button class="btn primary" type="submit">Download Markdown report</button><button class="btn" type="reset">Clear form</button></div><p class="privacy">Your entries stay in this browser page and are not uploaded anywhere. Downloaded reports may contain sensitive details: review and sanitize them before sharing or committing.</p><p id="result" role="status" aria-live="polite"></p>
 </form>
+<section class="card" aria-labelledby="handover-title"><h2 id="handover-title">Submission Overview &amp; Release Notes</h2>
+<p class="hint">Copy this verified handover summary for a submission or release. It describes the reporting tool and the checks performed; it does not claim that a staging application or defect was tested.</p>
+<label for="handover-text">Handover text</label>
+<textarea id="handover-text" rows="18" readonly>SUBMISSION OVERVIEW & RELEASE NOTES — WEB APPLICATION BUG REPRODUCTION & TRIAGE REPORTS
+
+Purpose and scope
+This deliverable is an evidence-first workbench for recording and handing off web application defects. It is a reporting scaffold, not the staging application, a test runner, or a defect fix. The repository does not include verified defect reports or reproduction evidence.
+
+Architecture
+The browser workbench is a single self-contained index.html file. Semantic HTML supplies the form, accessible labels, status message, and report sections. CSS embedded in the document provides responsive layout and focus styles. Plain browser JavaScript adds/removes reproduction-step fields, validates required title/status, creates a Markdown report, and triggers a local download. No server, build pipeline, framework, or external runtime service is required. The related Markdown templates provide the standard defect report, evidence rules, acceptance checklist, and release handoff structure.
+
+Dependencies and data handling
+There are no third-party JavaScript/CSS libraries, package-manager dependencies, or network/API calls in the workbench. It uses browser-native DOM, form validation, Blob, and object-URL/download capabilities. Form data remains in the current page; it is not uploaded or persisted. The downloaded Markdown report can contain sensitive test details, so review and redact it before sharing.
+
+Verification performed
+The committed standalone HTML was downloaded and opened locally in the integrated browser. Verified that the page renders its form, required fields are labeled, a reproduction step can be added, and submitting a sample title with a selected status triggers the Markdown download and success message. This is a functional smoke check of the local file, not a full automated test suite or staging application test. No backend, staging URL/build, defect, cross-browser matrix, or operating-system matrix was tested. The HTML was separately downloaded from the public repository and checked for expected workbench content.
+
+Verified environment
+Local file URL opened in the integrated browser on Windows. Browser name/version and exact OS build were not recorded during the smoke check and should not be inferred. Staging URL/build: not supplied. Test account/role: not used. Automated tests/build: none available or run.
+
+Release contents and handoff
+The package includes index.html, README.md, SUBMISSION-REVIEW.md, ACCEPTANCE-CHECKLIST.md, DELIVERY-NOTES-TEMPLATE.md, triage-reports/REPORT-TEMPLATE.md, and evidence/README.md. Start by recording the real staging environment and preconditions for each defect, then capture minimal steps, expected versus observed behavior, attempts, impact, and sanitized evidence. Use Reproduced, Not reproduced, Blocked, or Needs clarification honestly; unassigned severity and unknown requirements should remain explicit.
+
+Known limitations / acceptance status
+No completed defect reports or defect evidence are included. Acceptance criteria that require reproduced defects, attached captures, and completed delivery outcomes remain open until supported by real test evidence. No time log was available for reconciliation. Do not claim that all submission criteria are met until the acceptance checklist is completed from actual evidence.</textarea>
+<div class="actions"><button class="btn primary" type="button" id="copy-handover">Copy handover text</button></div>
+<p id="copy-result" role="status" aria-live="polite"></p>
+</section>
 </main><footer>Use one report per defect. A failed reproduction is not proof that a defect does not exist. Complete acceptance checks only when supporting evidence is available.</footer>
 <script>
 (function(){
@@ -47,6 +75,7 @@ function text(value){return value||'Not recorded';}
 function section(name,value){return '## '+name+'\n\n'+text(value)+'\n\n';}
 addStep('');
 document.getElementById('add-step').addEventListener('click',function(){addStep('');steps.lastElementChild.querySelector('textarea').focus();});
+document.getElementById('copy-handover').addEventListener('click',async function(){const copyStatus=document.getElementById('copy-result');const handover=document.getElementById('handover-text');try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(handover.value);}else{handover.focus();handover.select();if(!document.execCommand('copy'))throw new Error('Copy command was not accepted.');}copyStatus.textContent='Handover text copied to the clipboard.';}catch(error){copyStatus.textContent='Could not copy automatically. Select the handover text above and copy it manually.';}});
 form.addEventListener('submit',function(event){event.preventDefault();if(!form.reportValidity())return;const stepList=Array.from(steps.querySelectorAll('textarea')).map(function(el,i){return (i+1)+'. '+(el.value.trim()||'Not recorded');}).join('\n');const report='# Defect: '+get('title')+'\n\n## Status\n\n'+get('status')+'\n\n## Classification\n\n- **Area:** '+text(get('area'))+'\n- **Impact:** '+text(get('impact'))+'\n- **Severity:** '+text(get('severity'))+'\n\n## Environment\n\n- **Staging URL / page:** '+text(get('url'))+'\n- **Build, release, or commit:** '+text(get('build'))+'\n- **Browser and version:** '+text(get('browser'))+'\n- **Operating system/device:** '+text(get('device'))+'\n- **Account or role used:** '+text(get('role'))+'\n- **Date/time and timezone:** '+text(get('date'))+'\n\n'+section('Preconditions',get('preconditions'))+'## Minimal reproduction steps\n\n'+stepList+'\n\n'+section('Expected behavior',get('expected'))+section('Actual behavior',get('actual'))+'## Reproduction result\n\n- **Outcome:** '+get('status')+'\n- **Attempts:** '+text(get('attempts'))+'\n- **Notes:** '+text(get('notes'))+'\n\n## Evidence\n\n'+(get('evidence')?'- [Evidence capture]('+get('evidence')+') — '+text(get('evidence-note')):'No evidence link recorded. '+text(get('evidence-note')))+'\n\n## Engineering handoff\n\n- **Likely affected component/route (if known):** '+text(get('component'))+'\n- **Relevant console or network details:** '+text(get('actual'))+'\n- **Frequency / scope observed:** '+text(get('frequency'))+'\n- **Suggested next investigation:** '+text(get('handoff'))+'\n';const blob=new Blob([report],{type:'text/markdown;charset=utf-8'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=(get('title').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'defect-report')+'.md';document.body.append(link);link.click();link.remove();URL.revokeObjectURL(link.href);document.getElementById('result').textContent='Markdown report downloaded. Review it for accuracy and sanitize evidence before sharing.';});
 form.addEventListener('reset',function(){setTimeout(function(){steps.replaceChildren();addStep('');document.getElementById('result').textContent='';},0);});
 })();
