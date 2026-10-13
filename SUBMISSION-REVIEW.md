@@ -22,7 +22,7 @@ Evidence is defect-specific and must demonstrate the observation; do not substit
 
 | Confirmation | Status on reviewed repository | Verifiable basis / required check |
 |---|---|---|
-| Deliverables tested and verified locally | **Not verified.** This review inspected repository contents on GitHub; no local checkout or application/test execution was available. | A local validation record must identify the checked commit, commands or manual checks performed, and results. The repository contains no runnable application or test suite to execute. |
+| Deliverables tested and verified locally | **Partially verified.** Subsequent to the initial repository review, the standalone HTML was opened locally in an integrated browser on Windows. The workbench rendered, a reproduction step could be added, a sample title/status could be submitted to invoke Markdown export, and the copy-handover control reported successful copying. | See [HANDOVER-AND-RELEASE-NOTES.md](HANDOVER-AND-RELEASE-NOTES.md) for the manual smoke checks and environment gaps. No automated test suite, staging application, or cross-browser matrix was run; browser name/version was not recorded. |
 | All prompt instructions and acceptance criteria satisfied | **Not confirmed for a completed triage delivery.** The README says there are no verified defect reports yet. The acceptance checklist is unfilled, and no defect reports or reproduction evidence are present. | Complete the checklist only against actual reports/evidence and link those artifacts in [DELIVERY-NOTES-TEMPLATE.md](DELIVERY-NOTES-TEMPLATE.md). The current scaffold documents the process, but does not satisfy criteria that require completed defect findings. |
 | No placeholder or dummy code remains in submitted files | **Not applicable to application code; not true of the templates.** No application/source code is present. The report and delivery-notes files intentionally contain fill-in placeholders for future use. | For a submission of completed reports, check those submitted files for unfilled bracketed prompts and remove or resolve them. Keep reusable templates separate and clearly identified as templates. |
 | Time logged accurately reflects verified active work | **Not verifiable from this repository.** No time log or timesheet evidence is included. | Reconcile the submitted time entry with the approved time-tracking record and verified work; do not infer hours from commit timestamps. |
@@ -32,7 +32,7 @@ Evidence is defect-specific and must demonstrate the observation; do not substit
 ## Verification record
 
 - Repository/ref reviewed: `JohnPiansay/skillgrid-web-bug-triage`, `main` at `a965d67535e2457e6b45cb8fb514b66374b0c49e`
-- Verification performed: inspected the README, report/evidence guidance, acceptance checklist, and delivery-notes template on GitHub.
-- Local tests/build: not run; this repository contains documentation templates and no runnable application/test suite.
+- Verification performed: inspected the README, report/evidence guidance, acceptance checklist, and delivery-notes template on GitHub; later performed the local browser smoke checks recorded in [HANDOVER-AND-RELEASE-NOTES.md](HANDOVER-AND-RELEASE-NOTES.md).
+- Local tests/build: manual workbench smoke checks performed; no automated test suite or build exists in this documentation-and-HTML package.
 - Defect reports/evidence: none present in the reviewed repository.
 - Time tracking: no record available for verification.
