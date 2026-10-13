@@ -44,9 +44,10 @@ No completed defect reports or reproduction evidence are included in this packag
 - Confirmed the workbench rendered its form, including the defect fields and reproduction-step area.
 - Added a reproduction step using the dynamic Add step control.
 - Entered a sample title, selected a reproduction status, and invoked Download Markdown report; the workbench announced that the report was downloaded.
+- Opened the updated workbench from a temporary trusted local-file path and activated **Copy handover text**; the UI reported that the text was copied successfully.
 - Confirmed the local HTML contained the expected workbench title and Markdown-export control before opening it.
 
-These are manual smoke checks of the previous workbench version. They are not a complete automated test suite, cross-browser compatibility run, security audit, or staging-application test. The new handover copy button has not yet been independently exercised as part of this recorded test history; verify it after opening the updated file by activating **Copy handover text** and pasting into a text editor.
+These are manual smoke checks, not a complete automated test suite, cross-browser compatibility run, security audit, or staging-application test. The temporary trusted-path copy was used only for verification; the maintained deliverable remains in the Downloads package.
 
 ### Environment records and gaps
 
