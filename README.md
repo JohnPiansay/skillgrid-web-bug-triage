@@ -4,6 +4,10 @@ A workbench for reproducing reported defects in a staging web application and ha
 
 This repository is a reporting scaffold. It contains no verified defect reports yet. Create one report per defect from `triage-reports/REPORT-TEMPLATE.md`, and attach sanitized evidence as described in `evidence/README.md`.
 
+## Standalone report builder
+
+Open or download [`index.html`](https://raw.githubusercontent.com/JohnPiansay/skillgrid-web-bug-triage/main/index.html) to use the single-file workbench. It runs in a browser without a server or external dependencies, and generates a Markdown report for download. Form entries are not uploaded. The workbench documents findings; it does not test a staging application. Review each report for accuracy and redact sensitive evidence before sharing.
+
 ## Per-defect deliverables
 
 Each report should include:
@@ -17,10 +21,12 @@ Each report should include:
 
 ## Workbench layout
 
+- `index.html` — standalone browser-based report builder that exports a Markdown report.
 - `triage-reports/` — one Markdown report per defect, plus the report template.
 - `evidence/` — sanitized screenshots and exported console/network evidence.
 - `DELIVERY-NOTES-TEMPLATE.md` — summary for a delivery or release handoff.
 - `ACCEPTANCE-CHECKLIST.md` — verification checklist for this scope.
+- `SUBMISSION-REVIEW.md` — evidence-based answers and verification status for submission.
 
 ## Getting started
 
