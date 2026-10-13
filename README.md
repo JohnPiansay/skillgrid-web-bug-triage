@@ -27,6 +27,7 @@ Each report should include:
 - `DELIVERY-NOTES-TEMPLATE.md` — summary for a delivery or release handoff.
 - `ACCEPTANCE-CHECKLIST.md` — verification checklist for this scope.
 - `SUBMISSION-REVIEW.md` — evidence-based answers and verification status for submission.
+- `HANDOVER-AND-RELEASE-NOTES.md` — architecture, dependencies, verification record, and handover procedure.
 
 ## Getting started
 
