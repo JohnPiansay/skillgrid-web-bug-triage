@@ -82,6 +82,26 @@ Operational handoff: For each real defect, record staging URL/build, browser/ver
 <div class="actions"><button class="btn primary" type="button" id="copy-technical">Copy technical summary</button></div>
 <p id="technical-copy-result" role="status" aria-live="polite"></p>
 </section>
+<section class="card" aria-labelledby="q1-title"><h2 id="q1-title">Q1. Methodology &amp; Implementation Approach</h2>
+<label for="q1-text">Q1 answer</label>
+<textarea id="q1-text" rows="10" readonly>The workbench uses an evidence-first, one-defect-at-a-time workflow. For each report, record the staging page and build, browser/device, role and preconditions; follow the smallest reproducible sequence; compare observed behavior with a cited product requirement or explicitly record when expected behavior needs clarification. Classify the affected area and observed user impact, report the reproduction outcome and attempts, then hand engineering the relevant evidence and investigation context without presenting an unverified root cause as fact.
+
+The implementation is a documentation scaffold consisting of a standalone browser report builder, a per-defect report template, evidence-handling guidance, an acceptance checklist, and delivery handover notes. It does not contain the staging application, automated test code, or completed defect reports.
+
+Verification: confirm each completed report records its environment, preconditions, numbered steps, requirement-backed expected behavior, observed result, outcome/attempts, evidence links, and engineering handoff."></textarea>
+<div class="actions"><button class="btn primary" type="button" id="copy-q1">Copy Q1 answer</button></div>
+<p id="q1-copy-result" role="status" aria-live="polite"></p>
+</section>
+<section class="card" aria-labelledby="q2-title"><h2 id="q2-title">Q2. Edge Cases &amp; Quality Controls</h2>
+<label for="q2-text">Q2 answer</label>
+<textarea id="q2-text" rows="11" readonly>The workflow distinguishes Reproduced, Not reproduced, Blocked, and Needs clarification; a failed reproduction is not treated as proof that a defect does not exist. Record what was tried, the environment, and any blocker. For intermittent or environment-dependent behavior, record attempt counts, variations, and conditions rather than presenting a single observation as universal. Record account/role, data state, and feature-flag preconditions when relevant.
+
+When expected behavior is unclear, request clarification rather than inventing a requirement. Use only the team's severity scale; otherwise leave severity unassigned. Evidence must be defect-specific and demonstrate the observation; do not substitute illustrative captures. Redact credentials, tokens, cookies, session identifiers, and unnecessary personal information before committing. Link each artifact from its report, state when evidence could not be captured, and keep unverified causes or scope claims out of the handoff.
+
+Verification: compare outcome, attempts, notes, preconditions, and evidence links against the actual test record; inspect evidence for redaction; and ensure impact, severity, and expected-behavior statements have a source or are explicitly marked unknown."></textarea>
+<div class="actions"><button class="btn primary" type="button" id="copy-q2">Copy Q2 answer</button></div>
+<p id="q2-copy-result" role="status" aria-live="polite"></p>
+</section>
 </main><footer>Use one report per defect. A failed reproduction is not proof that a defect does not exist. Complete acceptance checks only when supporting evidence is available.</footer>
 <script>
 (function(){
@@ -97,6 +117,8 @@ document.getElementById('add-step').addEventListener('click',function(){addStep(
 async function copyText(textareaId,statusId,label){const copyStatus=document.getElementById(statusId);const source=document.getElementById(textareaId);try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(source.value);}else{source.focus();source.select();if(!document.execCommand('copy'))throw new Error('Copy command was not accepted.');}copyStatus.textContent=label+' copied to the clipboard.';}catch(error){copyStatus.textContent='Could not copy automatically. Select the text above and copy it manually.';}}
 document.getElementById('copy-handover').addEventListener('click',function(){copyText('handover-text','copy-result','Handover text');});
 document.getElementById('copy-technical').addEventListener('click',function(){copyText('technical-text','technical-copy-result','Technical summary');});
+document.getElementById('copy-q1').addEventListener('click',function(){copyText('q1-text','q1-copy-result','Q1 answer');});
+document.getElementById('copy-q2').addEventListener('click',function(){copyText('q2-text','q2-copy-result','Q2 answer');});
 form.addEventListener('submit',function(event){event.preventDefault();if(!form.reportValidity())return;const stepList=Array.from(steps.querySelectorAll('textarea')).map(function(el,i){return (i+1)+'. '+(el.value.trim()||'Not recorded');}).join('\n');const report='# Defect: '+get('title')+'\n\n## Status\n\n'+get('status')+'\n\n## Classification\n\n- **Area:** '+text(get('area'))+'\n- **Impact:** '+text(get('impact'))+'\n- **Severity:** '+text(get('severity'))+'\n\n## Environment\n\n- **Staging URL / page:** '+text(get('url'))+'\n- **Build, release, or commit:** '+text(get('build'))+'\n- **Browser and version:** '+text(get('browser'))+'\n- **Operating system/device:** '+text(get('device'))+'\n- **Account or role used:** '+text(get('role'))+'\n- **Date/time and timezone:** '+text(get('date'))+'\n\n'+section('Preconditions',get('preconditions'))+'## Minimal reproduction steps\n\n'+stepList+'\n\n'+section('Expected behavior',get('expected'))+section('Actual behavior',get('actual'))+'## Reproduction result\n\n- **Outcome:** '+get('status')+'\n- **Attempts:** '+text(get('attempts'))+'\n- **Notes:** '+text(get('notes'))+'\n\n## Evidence\n\n'+(get('evidence')?'- [Evidence capture]('+get('evidence')+') — '+text(get('evidence-note')):'No evidence link recorded. '+text(get('evidence-note')))+'\n\n## Engineering handoff\n\n- **Likely affected component/route (if known):** '+text(get('component'))+'\n- **Relevant console or network details:** '+text(get('actual'))+'\n- **Frequency / scope observed:** '+text(get('frequency'))+'\n- **Suggested next investigation:** '+text(get('handoff'))+'\n';const blob=new Blob([report],{type:'text/markdown;charset=utf-8'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=(get('title').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'defect-report')+'.md';document.body.append(link);link.click();link.remove();URL.revokeObjectURL(link.href);document.getElementById('result').textContent='Markdown report downloaded. Review it for accuracy and sanitize evidence before sharing.';});
 form.addEventListener('reset',function(){setTimeout(function(){steps.replaceChildren();addStep('');document.getElementById('result').textContent='';},0);});
 })();
