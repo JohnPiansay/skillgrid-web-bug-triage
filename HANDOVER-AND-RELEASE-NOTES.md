@@ -12,9 +12,9 @@ No completed defect reports or reproduction evidence are included in this packag
 
 `index.html` is a single-file client-side application:
 
-1. **Presentation:** semantic HTML defines the defect form, supporting instructions, live status messages, and the copyable release handover. Labels and section headings support assistive technologies; keyboard focus is visibly styled.
+1. **Presentation:** semantic HTML defines the defect form, supporting instructions, live status messages, and copyable release and technical summaries. Labels and section headings support assistive technologies; keyboard focus is visibly styled.
 2. **Styling:** embedded CSS provides the responsive page layout and mobile breakpoint. No stylesheet is fetched at runtime.
-3. **Interaction:** an inline JavaScript closure manages dynamic reproduction steps, validates the required title and reproduction outcome, assembles a Markdown report from entered fields, and starts a browser download. A separate copy action copies the static handover text and reports success or manual-copy guidance.
+3. **Interaction:** inline JavaScript manages dynamic reproduction steps, validates the required title and reproduction outcome, assembles a Markdown report from entered fields, and starts a browser download. Independent copy actions copy the static release handover or technical summary and report success or manual-copy guidance.
 4. **Persistence and network boundary:** the form does not submit to a server, call an API, or save entries. Report generation happens in the browser using native `Blob` and object-URL/download functionality. User-entered information is not uploaded by the workbench.
 
 ### Supporting documentation
@@ -45,6 +45,7 @@ No completed defect reports or reproduction evidence are included in this packag
 - Added a reproduction step using the dynamic Add step control.
 - Entered a sample title, selected a reproduction status, and invoked Download Markdown report; the workbench announced that the report was downloaded.
 - Opened the updated workbench from a temporary trusted local-file path and activated **Copy handover text**; the UI reported that the text was copied successfully.
+- Activated **Copy technical summary** in the updated workbench; the UI reported that the technical summary was copied successfully.
 - Confirmed the local HTML contained the expected workbench title and Markdown-export control before opening it.
 
 These are manual smoke checks, not a complete automated test suite, cross-browser compatibility run, security audit, or staging-application test. The temporary trusted-path copy was used only for verification; the maintained deliverable remains in the Downloads package.
@@ -65,7 +66,7 @@ Do not infer exact browser or OS versions, staging coverage, test duration, or d
 
 ## Release contents
 
-- `index.html` — standalone responsive report builder; exports individual defect reports as Markdown and presents a copyable handover summary.
+- `index.html` — standalone responsive report builder; exports individual defect reports as Markdown and presents copyable release and technical summaries.
 - `HANDOVER-AND-RELEASE-NOTES.md` — architecture, dependency, verification, and release handover details.
 - `SUBMISSION-REVIEW.md` — methodology, quality controls, and Q3 verification status.
 - `ACCEPTANCE-CHECKLIST.md` — evidence-driven checklist.
